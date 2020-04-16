@@ -1,3 +1,5 @@
 data/private
 results
 .DS_Store
+r-scripts/.RData
+r-scripts/.RHistory
