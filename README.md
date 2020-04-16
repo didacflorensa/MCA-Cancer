@@ -4,10 +4,9 @@ About
 
 Author: Didac Florensa Cazorla
 PH.D supervisors:
-    * Jordi Mateo Fornés <jordi.mateo@udl.cat>, @JordiMateoUdL
-    * Francesc Solsona Tehàs
-    * Pere Godoy
-
+* Jordi Mateo Fornés <jordi.mateo@udl.cat>, #JordiMateoUdL
+* Francesc Solsona Tehàs
+* Pere Godoy
 
 This repository
 ---------------
