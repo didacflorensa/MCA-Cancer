@@ -1,24 +1,25 @@
+# Ph.D Repository
 
-About
------
+## About
 
-Author: Didac Florensa Cazorla
-PH.D supervisors:
-* Jordi Mateo Fornés <jordi.mateo@udl.cat>, #JordiMateoUdL
-* Francesc Solsona Tehàs <francesc.solsona@udl.cat>
-* Pere Godoy
+* **Author**: Didac Florensa Cazorla
+* **PH.D supervisors**:
+  * Jordi Mateo Fornés <jordi.mateo@udl.cat>, @github/JordiMateoUdL
+  * Francesc Solsona Tehàs <francesc.solsona@udl.cat>
+  * Pere Godoy
 
-This repository
----------------
+## This repository
 
 This repository contains all the code, scripts and services builed in the context of my Ph.D Studies. Inside this repository you will find:
 
-* data: This folder contains mock data to use and understand the tools developed. This is not the data used in my research, I can not publish raw data for logical reasons.
-* docker: This folder contains the required container to deploy the scripts. Alternatively, you can install R, python or jupyter or shinny in your personal laptop or server and run them in a more traditional way.
-* results: This folder is need by the containers to store inside the results.
+* _data_: This folder contains mock data to use and understand the tools developed. This is not the data used in my research, I can not publish raw data for logical reasons.
+* _docker_: This folder contains the required container to deploy the scripts. Alternatively, you can install R, python or jupyter or shinny in your personal laptop or server and run them in a more traditional way.
+* _results_: This folder is need by the containers to store inside the results.
+* _r-scripts_: This folder is need by 
+* _jupyter-notebools_: This folder is need by t
+* _python-scripts_: This folder is need by 
 
-Using the R server
-----------------
+## Using the R server
 
 First of all, you need to build the custom image to deploy the container in docker environment:
 
