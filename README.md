@@ -51,3 +51,7 @@ sudo docker run -d --rm -p 28787:8787 -e PASSWORD=123456! -e SCRIPTS_DIR "path t
 sudo docker stop r-computing-service
 sudo docker rm r-computing-service
 ```
+## Analysis technique
+* MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
+* MFA (Multiple Factor Analysis): Used when the dataset has groups of categorical or numerical numbers
+* FAMD (Factor Analysis Mixed Data): Used when the dataset has both categorical and numerical numbers
