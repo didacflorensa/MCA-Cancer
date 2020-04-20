@@ -23,25 +23,18 @@ source("Scripts/famd-study.R")
 #' * AGE is a quantitative variable with the real age when patient suffered the cancer.
 #' * GENDER is a categorical variable with gender information Male or Female.
 
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisis2.csv")
+cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisis2-famd.csv")
 summary(cancer.data)
 
 head(cancer.data)
 #' Study 1. Check MFA with AGE_GROUP, POPULATION, CANCER and GENDER
 #'
-cancer.data.analisi = cancer.data[, 2:5]
+cancer.data.analisi = cancer.data[, 2:4]
 res.famd <- FAMD(cancer.data.analisi)
 summary(res.famd)
-eig.val <- res.famd$eig
-barplot(eig.val[, 2], 
-        names.arg = 1:nrow(eig.val), 
-        main = "Variances Explained by Dimensions (%)",
-        xlab = "Principal Dimensions",
-        ylab = "Percentage of variances",
-        col ="steelblue")
-# Add connected line segments to the plot
-lines(x = 1:nrow(eig.val), eig.val[, 2], 
-      type = "b", pch = 19, col = "red")
+
+fviz_screeplot(res.famd)
+
 
 #Correlation between variables
 plot(res.famd, choix = "var")
@@ -68,9 +61,33 @@ fviz_contrib(res.famd, "var", axes = 1)
 # Contribution to the second dimension
 fviz_contrib(res.famd, "var", axes = 2)
 
+#Contribution of the quantitative variables
+fviz_famd_var(res.famd, "quanti.var", col.var = "contrib", 
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE)
+
+# Color by cos2 values: quality on the factor map
+fviz_famd_var(res.famd, "quanti.var", col.var = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+              repel = TRUE)
+
+fviz_famd_var(res.famd, "quali.var", col.var = "contrib", 
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
+)
+
+fviz_famd_ind(res.famd, col.ind = "cos2", 
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE)
 
 
+fviz_mfa_ind(res.famd, 
+             habillage = "cancer", # color by groups 
+             palette = c("#00AFBB", "#E7B800", "#FC4E07", "#008000", "#DA70D6"),
+             addEllipses = TRUE, ellipse.type = "confidence", 
+             repel = TRUE # Avoid text overlapping
+) 
 
-
+fviz_ellipses(res.famd, c("cancer", "population"), repel = TRUE)
+fviz_ellipses(res.famd, 2:3, geom = "point")
 
 
