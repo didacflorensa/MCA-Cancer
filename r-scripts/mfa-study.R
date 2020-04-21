@@ -49,6 +49,16 @@ fviz_contrib(res.mfa2, choice = "quali.var", axes = 1, top = 20,
 fviz_contrib(res.mfa1, choice = "quali.var", axes = 2, top = 20,
              palette = "jco")
 
+#Plot of categorical variables in the Dimensions
+fviz_mfa_var(res.mfa1, "quali.var", palette = "jco", 
+             col.var.sup = "violet", repel = TRUE)
+
+#Contribution of all the categorical categories
+fviz_mfa_var(res.mfa1, "quali.var", col.var = "contrib", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#008000"), 
+             col.var.sup = "violet", repel = TRUE,
+             geom = c("point", "text"))
+
 #' Conclusion: The population (0.24, 0) variable is close to (0, 0) in both dimension, so it is not a way to extract results.
 #'-----------------------------------------------End Study 1-----------------------------------------------------------------#
 
@@ -82,63 +92,51 @@ fviz_mfa_var(res.mfa2, "quali.var", palette = "jco",
 
 #Contribution of all the categorical categories
 fviz_mfa_var(res.mfa2, "quali.var", col.var = "contrib", 
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#008000"), 
              col.var.sup = "violet", repel = TRUE,
              geom = c("point", "text"))
 
-fviz_mfa_ind(res.mfa1, 
-             habillage = "cancer", # color by groups 
-             palette = c("#00AFBB", "#E7B800", "#FC4E07", "#008000", "#DA70D6"),
-             addEllipses = TRUE, ellipse.type = "confidence", 
-             repel = TRUE # Avoid text overlapping
-)
+# fviz_mfa_ind(res.mfa1, 
+#              habillage = "population", # color by groups 
+#              palette = c("#00AFBB", "#E7B800", "#FC4E07", "#008000", "#DA70D6"),
+#              addEllipses = TRUE, ellipse.type = "confidence", 
+#              repel = TRUE # Avoid text overlapping
+# )
 
 #' Conclusion: The population (0.39, 0.1) is a bit far from (0,0) compared with the previous study, but it has to study if it is a 
 #' good candidate case to be studied. The contribution of the population variable in the Dimensions is not strong enough.
 
 
-eig.val <- get_eigenvalue(res.mfa2)
-head(eig.val)
 
-group <- get_mfa_var(res.mfa2, "group")
-group
-# Coordinates of groups
-head(group$coord)
-# Cos2: quality of representation on the factore map
-head(group$cos2)
-# Contributions to the  dimensions
-head(group$contrib)
+#---------------------- Auxiliar function and plots ----------------------------------#
+# 
+# eig.val <- get_eigenvalue(res.mfa2)
+# head(eig.val)
+# 
+# group <- get_mfa_var(res.mfa2, "group")
+# group
 
 
+# # Coordinates of groups
+# head(group$coord)
+
+# # Cos2: quality of representation on the factore map
+# head(group$cos2)
+
+# # Contributions to the  dimensions
+# head(group$contrib)
 
 
 
-
-fviz_mfa_var(res.mfa1, "quali.var", col.var = "contrib", 
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             col.var.sup = "violet", repel = TRUE,
-             geom = c("point", "text"))
-
-fviz_mfa_ind(res.mfa1, col.ind = "cos2", 
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
-
-fviz_mfa_var(res.mfa1, "quali.var", palette = "jco", 
-             col.var.sup = "violet", repel = TRUE)
-
-fviz_mfa_var(res.mfa1, "quali.var", palette = "jco", 
-             col.var.sup = "violet", repel = TRUE,
-             geom = c("point", "text"), legend = "bottom")
-
-
-fviz_mfa_var(res.mfa1, "quali.var", col.var = "contrib", 
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#FFFFFF"), 
-             col.var.sup = "violet", repel = TRUE,
-             geom = c("point", "text"))
-
-fviz_mfa_ind(res.mfa1, 
-             habillage = "Label", # color by groups 
-             palette = c("#00AFBB", "#E7B800", "#FC4E07", "#FFFFFF"),
-             addEllipses = TRUE, ellipse.type = "confidence", 
-             repel = TRUE # Avoid text overlapping
-)
+# fviz_mfa_ind(res.mfa1, col.ind = "cos2", 
+#              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+#              repel = TRUE)
+# 
+# 
+# 
+# fviz_mfa_ind(res.mfa1, 
+#              habillage = "population", # color by groups 
+#              palette = c("#00AFBB", "#E7B800", "#FC4E07", "#FFFFFF"),
+#              addEllipses = TRUE, ellipse.type = "confidence", 
+#              repel = TRUE # Avoid text overlapping
+# )
