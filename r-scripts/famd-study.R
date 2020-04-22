@@ -23,24 +23,39 @@ source("Scripts/famd-study.R")
 #' * AGE is a quantitative variable with the real age when patient suffered the cancer.
 #' * GENDER is a categorical variable with gender information Male or Female.
 
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisis2-famd.csv")
+cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisis2.csv")
 summary(cancer.data)
 
 head(cancer.data)
+#'-----------------------------------------------Study 1---------------------------------------------------------------------#
 #' Study 1. Check MFA with AGE_GROUP, POPULATION, CANCER and GENDER
-#'
-cancer.data.analisi = cancer.data[, 2:4]
-res.famd <- FAMD(cancer.data.analisi)
+#' 
+cancer.data.analisi = cancer.data[, 2:5]
+res.famd <- FAMD(cancer.data.analisi, graph = FALSE)
 summary(res.famd)
-
-fviz_screeplot(res.famd)
-
 
 #Correlation between variables
 plot(res.famd, choix = "var")
 
+#Percentage of explained variances - dimensions
+fviz_screeplot(res.famd, addlabels = TRUE)
+
+# Contribution to the first dimension
+fviz_contrib(res.famd, "var", axes = 1)
+
+# Contribution to the second dimension
+fviz_contrib(res.famd, "var", axes = 2)
+
+#The contribution of every category in the dimension 1
+fviz_contrib(res.famd, choice = "quali.var", axes = 1, top = 20,
+             palette = "jco")
+
+#The contribution of every category in the dimension 2
+fviz_contrib(res.famd, choice = "quali.var", axes = 2, top = 20,
+             palette = "jco")
+
 #Graph of individuals
-plot(res.famd, choix = "ind")
+#plot(res.famd, choix = "ind")
 
 #Correlation circle of qualitative variables
 plot(res.famd, choix = "quali")
@@ -50,7 +65,54 @@ plot(res.famd, choix = "quanti")
 
 
 summary(res.famd)
-plot(res.famd, habillage=2)
+#plot(res.famd, habillage=2)
+#'-----------------------------------------------End Study 1---------------------------------------------------------------------#
+
+
+
+
+#'-----------------------------------------------Study 2---------------------------------------------------------------------#
+#' Study 1. Check MFA with AGE_GROUP, POPULATION and CANCER
+#' 
+#' 
+cancer.data.analisi2 = cancer.data[, 2:4]
+res.famd2 <- FAMD(cancer.data.analisi2, graph = FALSE)
+summary(res.famd2)
+
+#Correlation between variables
+fviz_famd_var(res.famd2, repel = TRUE)
+
+#Percentage of explained variances - dimensions
+fviz_screeplot(res.famd2, addlabels = TRUE)
+
+# Contribution to the first dimension
+fviz_contrib(res.famd2, "var", axes = 1)
+
+# Contribution to the second dimension
+fviz_contrib(res.famd2, "var", axes = 2)
+
+#The contribution of every category in the dimension 1
+fviz_contrib(res.famd2, choice = "quali.var", axes = 1, top = 20,
+             palette = "jco")
+
+#The contribution of every category in the dimension 2
+fviz_contrib(res.famd2, choice = "quali.var", axes = 2, top = 20,
+             palette = "jco")
+
+#Graph of individuals
+#plot(res.famd, choix = "ind")
+
+#Correlation circle of qualitative variables
+plot(res.famd2, choix = "quali")
+
+#Correlation circle of quantitative variables
+plot(res.famd2, choix = "quanti")
+
+
+summary(res.famd)
+
+#'-----------------------------------------------End Study 2---------------------------------------------------------------------#
+
 
 
 #Another way to build FAMD study
@@ -71,7 +133,7 @@ fviz_famd_var(res.famd, "quanti.var", col.var = "cos2",
               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
               repel = TRUE)
 
-fviz_famd_var(res.famd, "quali.var", col.var = "contrib", 
+fviz_famd_var(res.famd2, "quali.var", col.var = "contrib", 
               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
 )
 
@@ -87,7 +149,7 @@ fviz_mfa_ind(res.famd,
              repel = TRUE # Avoid text overlapping
 ) 
 
-fviz_ellipses(res.famd, c("cancer", "population"), repel = TRUE)
-fviz_ellipses(res.famd, 2:3, geom = "point")
+fviz_ellipses(res.famd2, c("cancer", "population"), repel = TRUE)
+fviz_ellipses(res.famd2, 2:3, geom = "point")
 
 
