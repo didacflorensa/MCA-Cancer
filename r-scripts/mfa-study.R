@@ -96,15 +96,93 @@ fviz_mfa_var(res.mfa2, "quali.var", col.var = "contrib",
              col.var.sup = "violet", repel = TRUE,
              geom = c("point", "text"))
 
-# fviz_mfa_ind(res.mfa1, 
-#              habillage = "population", # color by groups 
-#              palette = c("#00AFBB", "#E7B800", "#FC4E07", "#008000", "#DA70D6"),
-#              addEllipses = TRUE, ellipse.type = "confidence", 
-#              repel = TRUE # Avoid text overlapping
-# )
+fviz_mfa_ind(res.mfa2,
+             habillage = "population", # color by groups
+             palette = c("#00AFBB", "#E7B800", "#FC4E07", "#008000", "#DA70D6"),
+             addEllipses = TRUE, ellipse.type = "confidence",
+             repel = TRUE # Avoid text overlapping
+)
 
 #' Conclusion: The population (0.39, 0.1) is a bit far from (0,0) compared with the previous study, but it has to study if it is a 
 #' good candidate case to be studied. The contribution of the population variable in the Dimensions is not strong enough.
+
+#'-----------------------------------------------Study 3---------------------------------------------------------------------#
+#' Study 1. Check MFA with AGE_GROUP as quantitative group, and POPULATION, CANCER and GENDER as categorical group
+#' 
+cancer.data.analisi = cancer.data[, 2:5]
+res.mfa3 <- MFA(cancer.data.analisi, group = c(1, 3), type = c("c", "n"), name.group = c("age", "population-cancer-gender"), 
+                graph = FALSE)
+fviz_screeplot(res.mfa3, addlabels = TRUE) #Dimensions
+fviz_mfa_var(res.mfa3, "group")
+
+# Contribution to the first dimension of Study 2
+fviz_contrib(res.mfa3, "group", axes = 1)
+# Contribution to the second dimension of Study 2
+fviz_contrib(res.mfa3, "group", axes = 2)
+
+#The contribution of every category in the dimension 1
+fviz_contrib(res.mfa3, choice = "quali.var", axes = 1, top = 20,
+             palette = "jco")
+
+#The contribution of every category in the dimension 2
+fviz_contrib(res.mfa3, choice = "quali.var", axes = 2, top = 20,
+             palette = "jco")
+
+#Plot of categorical variables in the Dimensions
+fviz_mfa_var(res.mfa3, "quali.var", palette = "jco", 
+             col.var.sup = "violet", repel = TRUE)
+
+#Contribution of all the categorical categories
+fviz_mfa_var(res.mfa1, "quali.var", col.var = "contrib", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#008000"), 
+             col.var.sup = "violet", repel = TRUE,
+             geom = c("point", "text"))
+
+#' Conclusion: The population is insignificantly
+#'-----------------------------------------------End Study 3-----------------------------------------------------------------#
+
+
+
+
+#'-----------------------------------------------Study 4---------------------------------------------------------------------#
+#' Study 4. Check MFA with AGE_GROUP as quantitative group, and POPULATION and CANCER as categorical group
+#' 
+cancer.data.analisi = cancer.data[, 2:4]
+res.mfa4 <- MFA(cancer.data.analisi, group = c(1, 2), type = c("c", "n"), name.group = c("age", "population-cancer"), 
+                graph = FALSE)
+fviz_screeplot(res.mfa4, addlabels = TRUE) #Dimensions
+fviz_mfa_var(res.mfa4, "group")
+
+# Contribution to the first dimension of Study 2
+fviz_contrib(res.mfa4, "group", axes = 1)
+# Contribution to the second dimension of Study 2
+fviz_contrib(res.mfa4, "group", axes = 2)
+
+#The contribution of every category in the dimension 1
+fviz_contrib(res.mfa4, choice = "quali.var", axes = 1, top = 20,
+             palette = "jco")
+
+#The contribution of every category in the dimension 2
+fviz_contrib(res.mfa4, choice = "quali.var", axes = 2, top = 20,
+             palette = "jco")
+
+#Plot of categorical variables in the Dimensions
+fviz_mfa_var(res.mfa4, "quali.var", palette = "jco", 
+             col.var.sup = "violet", repel = TRUE)
+
+#Contribution of all the categorical categories
+fviz_mfa_var(res.mfa4, "quali.var", col.var = "contrib", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#008000"), 
+             col.var.sup = "violet", repel = TRUE,
+             geom = c("point", "text"))
+
+fviz_mfa_ind(res.mfa4, col.ind = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07", "#008000"),
+             repel = TRUE)
+
+#' Conclusion: The population is insignificantly
+#'-----------------------------------------------End Study 3-----------------------------------------------------------------#
+
 
 
 
