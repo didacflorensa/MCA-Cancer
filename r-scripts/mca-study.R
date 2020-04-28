@@ -294,34 +294,6 @@ fviz_mca_ind(res.mca3,
 
 
 
-#'-----------------------------------------------Study 1 - Colon and rectum ---------------------------------------------------------------------#
-#' Study 5. Check MFA with AGE_GROUP(categorical variable) and GENDER are a group, POPULATION as categorical group, and CANCER as categorical group
-#' 
-#' +
-#'
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte.csv")
-summary(cancer.data)
-
-head(cancer.data)
-cancer.data.analisi = cancer.data[, 2:5]
-res.mca.colon <- MCA(cancer.data.analisi, graph = FALSE)
-fviz_screeplot(res.mca.colon, addlabels = TRUE)
-
-fviz_mca_ind(res.mca.colon,label = "none", labelsaddEllipses = TRUE, ellipse.level = 0.9,ggtheme = theme_minimal())
-
-fviz_mca_var(res.mca.colon, choice = "mca.cor", 
-             repel = TRUE, 
-             ggtheme = theme_minimal())
-
-fviz_mca_var(res.mca.colon, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
-
-
-
-
-
 #'-----------------------------------------------Study 5 - Colon and rectum ---------------------------------------------------------------------#
 #' Study 5. Check MFA with AGE_GROUP(categorical variable) and GENDER are a group, POPULATION as categorical group, and CANCER as categorical group
 #' 
@@ -353,14 +325,11 @@ fviz_contrib(res.mca.colon, "var", axes = 1)
 # Contribution to the second dimension
 fviz_contrib(res.mca.colon, "var", axes = 2)
 
+fviz_mca_biplot(res.mca.colon)
+
 fviz_mca_var(res.mca.colon, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, ggtheme = theme_minimal())
-
-
-#The contribution of every category in the dimension 1
-fviz_contrib(res.mca.colon, choice = "quali.var", axes = 1, top = 20,
-             palette = "jco")
 
 #'-----------------------------------------------End Study 5 - Colon and rectum ---------------------------------------------------------------------#
 
@@ -483,7 +452,7 @@ fviz_mca_var(res.mca.prostata, col.var = "contrib",
 
 
 
-#'-----------------------------------------------Study 9 - Prostate ---------------------------------------------------------------------#
+#'-----------------------------------------------Study 9 - Mama ---------------------------------------------------------------------#
 #' Study 9. Check MCA with AGE_GROUP(categorical variable) and GENDER and POPULATION
 #' 
 #' +
@@ -517,4 +486,4 @@ fviz_mca_var(res.mca.mama, col.var = "contrib",
              repel = TRUE, ggtheme = theme_minimal())
 
 
-#'-----------------------------------------------End Study 9 - Urinary Bladder ---------------------------------------------------------------------#
+#'-----------------------------------------------End Study 9 - Mama ---------------------------------------------------------------------#
