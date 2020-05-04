@@ -172,8 +172,13 @@ summary(res.mca3)
 
 fviz_mca_ind(res.mca3,label = "none", labelsaddEllipses = TRUE, ellipse.level = 0.9,ggtheme = theme_minimal())
 
+
 fviz_mca_var(res.mca3, choice = "mca.cor", 
              repel = TRUE, 
+             ggtheme = theme_minimal())
+
+fviz_mca_var(res.mca3, 
+             repel = TRUE, # Avoid text overlapping (slow)
              ggtheme = theme_minimal())
 
 fviz_mca_var(res.mca3, col.var = "contrib",
@@ -302,6 +307,9 @@ fviz_mca_ind(res.mca3,
 
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte2.csv")
 summary(cancer.data)
+table(cancer.data$sexe)
+table(cancer.data$edat)
+table(cancer.data$poblacio)
 
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
@@ -314,7 +322,9 @@ fviz_mca_var(res.mca.colon, choice = "mca.cor",
              ggtheme = theme_minimal())
 
 #Correlation between variables
-fviz_famd_var(res.mca.colon, repel = TRUE)
+fviz_famd_var(res.mca.colon, 
+             repel = TRUE, # Avoid text overlapping (slow)
+             ggtheme = theme_minimal())
 
 #Percentage of explained variances - dimensions
 fviz_screeplot(res.mca.colon, addlabels = TRUE)
@@ -330,6 +340,13 @@ fviz_mca_biplot(res.mca.colon)
 fviz_mca_var(res.mca.colon, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE, ggtheme = theme_minimal())
+
+# fviz_mca_ind(res.mca.colon, 
+#              habillage = "poblacio", # color by groups 
+#              palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+#              addEllipses = TRUE, ellipse.type = "confidence", 
+#              repel = TRUE # Avoid text overlapping
+# )
 
 #'-----------------------------------------------End Study 5 - Colon and rectum ---------------------------------------------------------------------#
 
@@ -383,6 +400,9 @@ fviz_mca_var(res.mca.pulmo, col.var = "contrib",
 
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-bufeta2.csv")
 summary(cancer.data)
+table(cancer.data$sexe)
+table(cancer.data$edat)
+table(cancer.data$poblacio)
 
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
@@ -425,6 +445,8 @@ summary(cancer.data)
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
 res.mca.prostata <- MCA(cancer.data.analisi, graph = FALSE)
+table(cancer.data$edat)
+
 
 #Percentage of explained variances - dimensions
 fviz_screeplot(res.mca.prostata, addlabels = TRUE)
@@ -460,6 +482,9 @@ fviz_mca_var(res.mca.prostata, col.var = "contrib",
 
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-mama2.csv")
 summary(cancer.data)
+table(cancer.data$poblacio)
+table(cancer.data$edat)
+table(cancer.data$sexe)
 
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
@@ -487,3 +512,58 @@ fviz_mca_var(res.mca.mama, col.var = "contrib",
 
 
 #'-----------------------------------------------End Study 9 - Mama ---------------------------------------------------------------------#
+
+
+
+
+#------------BORRAR- PROVA-------#
+
+require(FactoMineR)
+require(ggplot2)
+
+cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisisENG.csv")
+summary(cancer.data)
+
+head(cancer.data)
+cancer.data.analisi = cancer.data[, 2:5]
+cats = apply(cancer.data.analisi, 2, function(x) nlevels(as.factor(x)))
+
+cats
+
+mca1 = MCA(cancer.data.analisi, graph = FALSE)
+
+# list of results
+mca1
+mca1$eig
+
+mca1_vars_df = data.frame(mca1$var$coord, Variable = rep(names(cats), cats))
+
+# data frame with variable coordinates
+mca1_vars_df = data.frame(mca1$var$coord, Variable = rep(names(cats), cats))
+
+# data frame with observation coordinates
+mca1_obs_df = data.frame(mca1$ind$coord)
+
+# plot of variable categories
+ggplot(data=mca1_vars_df, 
+       aes(x = Dim.1, y = Dim.2, label = rownames(mca1_vars_df))) +
+  geom_hline(yintercept = 0, colour = "gray70") +
+  geom_vline(xintercept = 0, colour = "gray70") +
+  geom_text(aes(colour=Variable)) +
+  ggtitle("MCA plot of variables using R package FactoMineR")
+
+
+# MCA plot of observations and categories
+ggplot(data = mca1_obs_df, aes(x = Dim.1, y = Dim.2)) +
+  geom_hline(yintercept = 0, colour = "gray70") +
+  geom_vline(xintercept = 0, colour = "gray70") +
+  geom_point(colour = "gray50", alpha = 0.7) +
+  geom_density2d(colour = "gray80") +
+  geom_text(data = mca1_vars_df, 
+            aes(x = Dim.1, y = Dim.2, 
+                label = rownames(mca1_vars_df), colour = Variable)) +
+  ggtitle("MCA plot of variables using R package FactoMineR") +
+  scale_colour_discrete(name = "Variable")
+
+fviz_mca_var(mca1, choice = "mca.cor",
+             repel = TRUE)
