@@ -14,7 +14,63 @@ library("factoextra")
 library('ggplot2')
 library(readr)
 
-source("Scripts/mca-study.R")
+#source("Scripts/mca-study.R")
+
+# ----------------------------- Auxiliar Functions ------------------------------- #
+boxplot_by_gender <- function(cancer.data, cancer) {
+  df1 <- filter(cancer.data, gender == "Male")
+  df2 <- filter(cancer.data, gender == "Female")
+  
+  y_title <- list(
+    title = "Group of age"
+  )
+  
+  p <- plot_ly(df1, x = df1[["gender"]], y = df1[["age"]], type  = "box", name = 'Male')%>%
+    add_trace(df2, x = df2[["gender"]], y = df2[["age"]], name = 'Female') %>%
+    layout(yaxis = y_title) %>%
+    layout(title = paste("Cancer by gender -", cancer))
+  p
+}
+
+boxplot_by_population <- function(cancer.data, cancer) {
+  df1 <- filter(cancer.data, population == "Urban")
+  df2 <- filter(cancer.data, population == "Rural")
+  
+  y_title <- list(
+    title = "Group of age"
+  )
+  
+  p <- plot_ly(df1, x = df1[["population"]], y = df1[["age"]], type  = "box", name = 'Urban')%>%
+    add_trace(df2, x = df2[["population"]], y = df2[["age"]], name = 'Rural') %>%
+    layout(yaxis = y_title) %>%
+    layout(title = paste("Cancer by population - ", cancer))
+  p
+}
+
+find_outliers <- function () {
+  cancer.data.colonrectum = read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte.csv")
+  boxplot_by_gender(cancer.data.colonrectum, "Colon and Rectum")
+  boxplot_by_population(cancer.data.colonrectum, "Colon and Rectum")
+  
+  cancer.data.lung = read_csv("Desktop/MCA-Cancer/data/private/analisi-pulmo.csv")
+  boxplot_by_gender(cancer.data.lung, "Lung")
+  boxplot_by_population(cancer.data.lung, "Lung")
+  
+  cancer.data.urinarybladder = read_csv("Desktop/MCA-Cancer/data/private/analisi-bufeta.csv")
+  boxplot_by_gender(cancer.data.urinarybladder, "Urinary Bladder")
+  boxplot_by_population(cancer.data.urinarybladder, "Urinary Bladder")
+  
+  cancer.data.prostate = read_csv("Desktop/MCA-Cancer/data/private/analisi-prostata.csv")
+  boxplot_by_gender(cancer.data.prostate, "Prostate")
+  boxplot_by_population(cancer.data.prostate, "Prostate")
+  
+  cancer.data.breast = read_csv("Desktop/MCA-Cancer/data/private/analisi-mama.csv")
+  boxplot_by_gender(cancer.data.breast, "Breast")
+  boxplot_by_population(cancer.data.breast, "Breast")
+}
+
+
+find_outliers()
 
 #' @details 
 #' This CSV is cleaned and contains the following columns PATIENT_ID, AGE_GROUP, POPULATION, CANCER and GENDER
@@ -305,7 +361,17 @@ fviz_mca_ind(res.mca3,
 #' +
 #'
 
+
+resumeCSV <- function(data.analysis, cancer) {
+  print(cancer)
+  print(table(data.analysis$sexe, data.analysis$edat, data.analysis$poblacio))
+}
+
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte2.csv")
+resumeCSV(cancer.data, "Colon and rectum")
+print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
+
+
 summary(cancer.data)
 table(cancer.data$sexe)
 table(cancer.data$edat)
@@ -367,6 +433,7 @@ summary(cancer.data)
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
 res.mca.pulmo <- MCA(cancer.data.analisi, graph = FALSE)
+print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
 
 #Percentage of explained variances - dimensions
 fviz_screeplot(res.mca.pulmo, addlabels = TRUE)
@@ -407,6 +474,7 @@ table(cancer.data$poblacio)
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
 res.mca.bufeta <- MCA(cancer.data.analisi, graph = FALSE)
+print(table(cancer.data.analisi$gender, cancer.data.analisi$group_age, cancer.data.analisi$population))
 
 #Percentage of explained variances - dimensions
 fviz_screeplot(res.mca.bufeta, addlabels = TRUE)
@@ -442,10 +510,32 @@ fviz_mca_var(res.mca.bufeta, col.var = "contrib",
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-prostata2.csv")
 summary(cancer.data)
 
+### Regularitat per edat
+
+df1 <- filter(cancer.data, group_age == "<60")
+df2 <- filter(cancer.data, group_age == ">80")
+df3 <- filter(cancer.data, group_age == "60-70")
+df4 <- filter(cancer.data, group_age == "70-80")
+
+
+y_title <- list(
+  title = "Group of age"
+)
+
+p <- plot_ly(df1, x = df1[["group_age"]], y = df1[["gender"]], type  = "box", name = '<60')%>%
+  add_trace(df2, x = df2[["group_age"]], y = df2[["gender"]], name = '>80') %>%
+  add_trace(df3, x = df3[["group_age"]], y = df3[["gender"]], name = '60-70') %>%
+  add_trace(df4, x = df4[["group_age"]], y = df4[["gender"]], name = '70-80') %>%
+  layout(yaxis = y_title)
+p
+
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
 res.mca.prostata <- MCA(cancer.data.analisi, graph = FALSE)
 table(cancer.data$edat)
+head(cancer.data)
+print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
+boxplot(cancer.data ~cancer.data$gender )
 
 
 #Percentage of explained variances - dimensions
@@ -482,9 +572,8 @@ fviz_mca_var(res.mca.prostata, col.var = "contrib",
 
 cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-mama2.csv")
 summary(cancer.data)
-table(cancer.data$poblacio)
-table(cancer.data$edat)
-table(cancer.data$sexe)
+
+print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
 
 head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
@@ -513,57 +602,3 @@ fviz_mca_var(res.mca.mama, col.var = "contrib",
 
 #'-----------------------------------------------End Study 9 - Mama ---------------------------------------------------------------------#
 
-
-
-
-#------------BORRAR- PROVA-------#
-
-require(FactoMineR)
-require(ggplot2)
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisisENG.csv")
-summary(cancer.data)
-
-head(cancer.data)
-cancer.data.analisi = cancer.data[, 2:5]
-cats = apply(cancer.data.analisi, 2, function(x) nlevels(as.factor(x)))
-
-cats
-
-mca1 = MCA(cancer.data.analisi, graph = FALSE)
-
-# list of results
-mca1
-mca1$eig
-
-mca1_vars_df = data.frame(mca1$var$coord, Variable = rep(names(cats), cats))
-
-# data frame with variable coordinates
-mca1_vars_df = data.frame(mca1$var$coord, Variable = rep(names(cats), cats))
-
-# data frame with observation coordinates
-mca1_obs_df = data.frame(mca1$ind$coord)
-
-# plot of variable categories
-ggplot(data=mca1_vars_df, 
-       aes(x = Dim.1, y = Dim.2, label = rownames(mca1_vars_df))) +
-  geom_hline(yintercept = 0, colour = "gray70") +
-  geom_vline(xintercept = 0, colour = "gray70") +
-  geom_text(aes(colour=Variable)) +
-  ggtitle("MCA plot of variables using R package FactoMineR")
-
-
-# MCA plot of observations and categories
-ggplot(data = mca1_obs_df, aes(x = Dim.1, y = Dim.2)) +
-  geom_hline(yintercept = 0, colour = "gray70") +
-  geom_vline(xintercept = 0, colour = "gray70") +
-  geom_point(colour = "gray50", alpha = 0.7) +
-  geom_density2d(colour = "gray80") +
-  geom_text(data = mca1_vars_df, 
-            aes(x = Dim.1, y = Dim.2, 
-                label = rownames(mca1_vars_df), colour = Variable)) +
-  ggtitle("MCA plot of variables using R package FactoMineR") +
-  scale_colour_discrete(name = "Variable")
-
-fviz_mca_var(mca1, choice = "mca.cor",
-             repel = TRUE)
