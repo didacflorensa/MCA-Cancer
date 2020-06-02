@@ -2,7 +2,7 @@
 
 ## About
 
-* **Author**: Didac Florensa Cazorla
+* **Author**: Didac Florensa Cazorla <didac.florensa@udl.cat>
 * **PH.D supervisors**:
   * Jordi Mateo Fornés <jordi.mateo@udl.cat>, @github/JordiMateoUdL
   * Francesc Solsona Tehàs <francesc.solsona@udl.cat>
