@@ -6,7 +6,7 @@
 * **PH.D supervisors**:
   * Jordi Mateo Fornés <jordi.mateo@udl.cat>, @github/JordiMateoUdL
   * Francesc Solsona Tehàs <francesc.solsona@udl.cat>
-  * Pere Godoy
+  * Pere Godoy Garcia <pere.godoy@gencat.cat>
 
 ## This repository
 
