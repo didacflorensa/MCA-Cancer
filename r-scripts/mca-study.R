@@ -13,11 +13,13 @@ library("FactoMineR")
 library("factoextra")
 library('ggplot2')
 library(readr)
+library(plotly)
 
-#source("Scripts/mca-study.R")
+source("Scripts/mca-study.R")
 
 # ----------------------------- Auxiliar Functions ------------------------------- #
 boxplot_by_gender <- function(cancer.data, cancer) {
+  head(cancer.data)
   df1 <- filter(cancer.data, gender == "Male")
   df2 <- filter(cancer.data, gender == "Female")
   
@@ -70,6 +72,7 @@ find_outliers <- function () {
 }
 
 
+#Calculate the outliers using Box Plot technique
 find_outliers()
 
 #' @details 
@@ -79,8 +82,11 @@ find_outliers()
 #' * AGE_GROUP is a categorical variable with ithe a set of age segmentation groups.
 #' * GENDER is a categorical variable with gender information Male or Female.
 
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisisENG.csv")
+cancer.data=read_csv("/Users/Didac/Desktop/MCA-Cancer/data/private/analisisENG.csv")
 summary(cancer.data)
+table(cancer.data$gender)
+table(cancer.data$edat)
+table(cancer.data$poblacio)
 
 head(cancer.data)
 
@@ -98,6 +104,17 @@ fviz_mca_var(res.mca1, choice = "mca.cor",
 fviz_mca_var(res.mca1, choice = "mca.cor", 
              repel = TRUE, # Avoid text overlapping (slow)
              ggtheme = theme_minimal())
+
+#The contribution of every category in the dimension 1
+fviz_contrib(res.mca1, choice = "var", axes = 1, top = 20,
+             palette = "jco")
+
+res.mca1$var
+res.mca1$eig
+
+#The contribution of every category in the dimension 2
+fviz_contrib(res.mca1, choice = "var", axes = 2, top = 20,
+             palette = "jco")
 
 fviz_mca_var(res.mca1, 
              repel = TRUE, # Avoid text overlapping (slow)
@@ -162,6 +179,9 @@ fviz_mca_var(res.mca2, choice = "mca.cor",
              repel = TRUE, 
              ggtheme = theme_minimal())
 
+res.mca2$var
+res.mca2$eig
+
 fviz_mca_var(res.mca2, choice = "mca.cor", 
              repel = TRUE, # Avoid text overlapping (slow)
              ggtheme = theme_minimal())
@@ -223,8 +243,20 @@ fviz_ellipses(res.mca2, 1:4, geom = "point")
 #'
 cancer.data.analisi = cancer.data[, 3:5]
 res.mca3 <- MCA(cancer.data.analisi, graph = FALSE)
-fviz_screeplot(res.mca3, addlabels = TRUE)
+
+fviz_screeplot(res.mca3, addlabels = TRUE, labelsize = 30) +
+  labs(title = " ")+
+  theme(text = element_text(size = 20),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 20))
+
+fviz_mca_var(res.mca3, choice = "mca.cor", 
+             repel = TRUE, 
+             ggtheme = theme_minimal())
 summary(res.mca3)
+
+res.mca3$eig
+res.mca3$var
 
 fviz_mca_ind(res.mca3,label = "none", labelsaddEllipses = TRUE, ellipse.level = 0.9,ggtheme = theme_minimal())
 
@@ -273,8 +305,14 @@ fviz_contrib(res.mca3, choice = "var", axes = 1:2, top = 15)
 
 fviz_mca_var(res.mca3, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, # avoid text overlapping (slow)
-             ggtheme = theme_minimal())
+             repel = TRUE, ggtheme = theme_minimal(), labelsize = 7) +
+  labs(title = " ", x= paste("Dimension 1 (", round(res.mca3$eig[7], 1),"%)", " "), 
+       y = paste("Dimension 2 (", round(res.mca3$eig[8], 1),"%)", " "))+
+  theme(text = element_text(size = 20),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 20), 
+        legend.position = c(0.95, 0.85))
+
 
 # Change the transparency by contrib values
 fviz_mca_var(res.mca3, alpha.var="contrib",
@@ -303,32 +341,8 @@ fviz_ellipses(res.mca3, c("cancer", "population"),
 fviz_ellipses(res.mca3, 1:4, geom = "point")
 # head(eig.val)
 
-# Here we calculare the distances between points
-calculateDistance <- function(x1, y1, x2, y2) {
-  result <- sqrt( ((x2-x1)^2) + ((y2-y1))^2)
-  return(result)
-}
+res.mca3$var
 
-categories <- c("Rural", "Urban", "Breast", "Colon and rectum", "Lung", 
-              "Prostate", "Urinary bladder", "Female", "Male")
-i_dim2 = 10
-initial = 1
-
-distance_vector <- c()
-
-for (i in 1:8) {
-  initial = initial + 1
-  dim2_j = 9 + initial
-  
-  for (j in initial:9) {
-    distance <- calculateDistance(res.mca3$var$coord[i], res.mca3$var$coord[i_dim2], 
-                res.mca3$var$coord[j], res.mca3$var$coord[dim2_j])
-    dim2_j = dim2_j + 1
-    distance_vector <- c(distance_vector, distance)
-  }
-}
-
-print(distance_vector)
 # var <- get_mca_var(res.mca3)
 # print(var)
 # head(var$coord) # coordinates of variables
@@ -352,253 +366,59 @@ fviz_mca_ind(res.mca3,
              addEllipses = TRUE,ellipse.level = 0.9,
              ggtheme = theme_minimal())
 
+#'----------------------------------------------- Study 9 - Urban ---------------------------------------------------------------------#
 
+cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-urba.csv")
 
-
-#'-----------------------------------------------Study 5 - Colon and rectum ---------------------------------------------------------------------#
-#' Study 5. Check MFA with AGE_GROUP(categorical variable) and GENDER are a group, POPULATION as categorical group, and CANCER as categorical group
-#' 
-#' +
-#'
-
-
-resumeCSV <- function(data.analysis, cancer) {
-  print(cancer)
-  print(table(data.analysis$sexe, data.analysis$edat, data.analysis$poblacio))
-}
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte2.csv")
-resumeCSV(cancer.data, "Colon and rectum")
-print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
-
-
-summary(cancer.data)
-table(cancer.data$sexe)
-table(cancer.data$edat)
-table(cancer.data$poblacio)
-
-head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
-res.mca.colon <- MCA(cancer.data.analisi, graph = FALSE)
+res.mca.urban <- MCA(cancer.data.analisi, graph = FALSE)
+head(cancer.data)
 
-fviz_screeplot(res.mca.colon, addlabels = TRUE)
+#Percentage of explained variances - dimensions
+fviz_screeplot(res.mca.urban, addlabels = TRUE)
 
-fviz_mca_var(res.mca.colon, choice = "mca.cor", 
+#Representation the variables in the dimensions
+fviz_mca_var(res.mca.urban, choice = "mca.cor", 
              repel = TRUE, 
              ggtheme = theme_minimal())
 
-#Correlation between variables
-fviz_famd_var(res.mca.colon, 
-             repel = TRUE, # Avoid text overlapping (slow)
-             ggtheme = theme_minimal())
-
-#Percentage of explained variances - dimensions
-fviz_screeplot(res.mca.colon, addlabels = TRUE)
-
-# Contribution to the first dimension
-fviz_contrib(res.mca.colon, "var", axes = 1)
-
-# Contribution to the second dimension
-fviz_contrib(res.mca.colon, "var", axes = 2)
-
-fviz_mca_biplot(res.mca.colon)
-
-fviz_mca_var(res.mca.colon, col.var = "contrib",
+#Represent the categories contribution 
+fviz_mca_var(res.mca.urban, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
-
-# fviz_mca_ind(res.mca.colon, 
-#              habillage = "poblacio", # color by groups 
-#              palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-#              addEllipses = TRUE, ellipse.type = "confidence", 
-#              repel = TRUE # Avoid text overlapping
-# )
-
-#'-----------------------------------------------End Study 5 - Colon and rectum ---------------------------------------------------------------------#
-
-#Graph of individuals
-#plot(res.famd, choix = "ind")
+             repel = TRUE, ggtheme = theme_minimal(), labelsize = 7) +
+  labs(title = " ", x= paste("Dimension 1 (", round(res.mca.urban$eig[9], 1),"%)", " "), 
+       y = paste("Dimension 2 (", round(res.mca.urban$eig[10], 1),"%)", " "))+
+  theme(text = element_text(size = 20),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 20), 
+        legend.position = c(0.95, 0.85))
 
 
+#'----------------------------------------------- Study 9 - Rural ---------------------------------------------------------------------#
 
-#'-----------------------------------------------Study 6 - Lung ---------------------------------------------------------------------#
-#' Study 5. Check MCA with AGE_GROUP(categorical variable) and GENDER and POPULATION
-#' 
-#' +
-#'
+cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-rural.csv")
 
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-pulmo2.csv")
-summary(cancer.data)
-
-head(cancer.data)
 cancer.data.analisi = cancer.data[, 2:4]
-res.mca.pulmo <- MCA(cancer.data.analisi, graph = FALSE)
-print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
+res.mca.rural <- MCA(cancer.data.analisi, graph = FALSE)
+head(cancer.data)
 
 #Percentage of explained variances - dimensions
-fviz_screeplot(res.mca.pulmo, addlabels = TRUE)
+fviz_screeplot(res.mca.rural, addlabels = TRUE)
 
-fviz_mca_var(res.mca.pulmo, choice = "mca.cor", 
+fviz_mca_var(res.mca.rural, choice = "mca.cor", 
              repel = TRUE, 
              ggtheme = theme_minimal())
 
-#Correlation between variables
-fviz_famd_var(res.mca.pulmo, repel = TRUE)
+res.mca.rural$eig
 
-# Contribution to the first dimension
-fviz_contrib(res.mca.pulmo, "var", axes = 1)
-
-# Contribution to the second dimension
-fviz_contrib(res.mca.pulmo, "var", axes = 2)
-
-fviz_mca_var(res.mca.pulmo, col.var = "contrib",
+fviz_mca_var(res.mca.rural, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
+             repel = TRUE, ggtheme = theme_minimal(), labelsize = 7) +
+  labs(title = " ", x= paste("Dimension 1 (", round(res.mca.rural$eig[9], 1),"%)", " "), 
+       y = paste("Dimension 2 (", round(res.mca.rural$eig[10], 1),"%)", " "))+
+  theme(text = element_text(size = 20),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 20), 
+        legend.position = c(0.95, 0.85))
 
-
-#'-----------------------------------------------End Study 6 - Lung ---------------------------------------------------------------------#
-
-
-#'-----------------------------------------------Study 7 - Urinary Bladder ---------------------------------------------------------------------#
-#' Study 7. Check MCA with AGE_GROUP(categorical variable) and GENDER and POPULATION
-#' 
-#' +
-#'
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-bufeta2.csv")
-summary(cancer.data)
-table(cancer.data$sexe)
-table(cancer.data$edat)
-table(cancer.data$poblacio)
-
-head(cancer.data)
-cancer.data.analisi = cancer.data[, 2:4]
-res.mca.bufeta <- MCA(cancer.data.analisi, graph = FALSE)
-print(table(cancer.data.analisi$gender, cancer.data.analisi$group_age, cancer.data.analisi$population))
-
-#Percentage of explained variances - dimensions
-fviz_screeplot(res.mca.bufeta, addlabels = TRUE)
-
-fviz_mca_var(res.mca.bufeta, choice = "mca.cor", 
-             repel = TRUE, 
-             ggtheme = theme_minimal())
-
-#Correlation between variables
-fviz_famd_var(res.mca.bufeta, repel = TRUE)
-
-# Contribution to the first dimension
-fviz_contrib(res.mca.bufeta, "var", axes = 1)
-
-# Contribution to the second dimension
-fviz_contrib(res.mca.bufeta, "var", axes = 2)
-
-fviz_mca_var(res.mca.bufeta, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
-
-
-#'-----------------------------------------------End Study 7 - Urinary Bladder ---------------------------------------------------------------------#
-
-
-
-#'-----------------------------------------------Study 8 - Prostate ---------------------------------------------------------------------#
-#' Study 8. Check MCA with AGE_GROUP(categorical variable) and GENDER and POPULATION
-#' 
-#' +
-#'
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-prostata2.csv")
-summary(cancer.data)
-
-### Regularitat per edat
-
-df1 <- filter(cancer.data, group_age == "<60")
-df2 <- filter(cancer.data, group_age == ">80")
-df3 <- filter(cancer.data, group_age == "60-70")
-df4 <- filter(cancer.data, group_age == "70-80")
-
-
-y_title <- list(
-  title = "Group of age"
-)
-
-p <- plot_ly(df1, x = df1[["group_age"]], y = df1[["gender"]], type  = "box", name = '<60')%>%
-  add_trace(df2, x = df2[["group_age"]], y = df2[["gender"]], name = '>80') %>%
-  add_trace(df3, x = df3[["group_age"]], y = df3[["gender"]], name = '60-70') %>%
-  add_trace(df4, x = df4[["group_age"]], y = df4[["gender"]], name = '70-80') %>%
-  layout(yaxis = y_title)
-p
-
-head(cancer.data)
-cancer.data.analisi = cancer.data[, 2:4]
-res.mca.prostata <- MCA(cancer.data.analisi, graph = FALSE)
-table(cancer.data$edat)
-head(cancer.data)
-print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
-boxplot(cancer.data ~cancer.data$gender )
-
-
-#Percentage of explained variances - dimensions
-fviz_screeplot(res.mca.prostata, addlabels = TRUE)
-
-fviz_mca_var(res.mca.prostata, choice = "mca.cor", 
-             repel = TRUE, 
-             ggtheme = theme_minimal())
-
-#Correlation between variables
-fviz_famd_var(res.mca.prostata, repel = TRUE)
-
-# Contribution to the first dimension
-fviz_contrib(res.mca.prostata, "var", axes = 1)
-
-# Contribution to the second dimension
-fviz_contrib(res.mca.prostata, "var", axes = 2)
-
-fviz_mca_var(res.mca.prostata, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
-
-
-#'-----------------------------------------------End Study 8 - Urinary Bladder ---------------------------------------------------------------------#
-
-
-
-
-#'-----------------------------------------------Study 9 - Mama ---------------------------------------------------------------------#
-#' Study 9. Check MCA with AGE_GROUP(categorical variable) and GENDER and POPULATION
-#' 
-#' +
-#'
-
-cancer.data=read_csv("Desktop/MCA-Cancer/data/private/analisi-mama2.csv")
-summary(cancer.data)
-
-print(table(cancer.data$gender, cancer.data$group_age, cancer.data$population))
-
-head(cancer.data)
-cancer.data.analisi = cancer.data[, 2:4]
-res.mca.mama <- MCA(cancer.data.analisi, graph = FALSE)
-
-#Percentage of explained variances - dimensions
-fviz_screeplot(res.mca.mama, addlabels = TRUE)
-
-fviz_mca_var(res.mca.prostata, choice = "mca.cor", 
-             repel = TRUE, 
-             ggtheme = theme_minimal())
-
-#Correlation between variables
-fviz_famd_var(res.mca.mama, repel = TRUE)
-
-# Contribution to the first dimension
-fviz_contrib(res.mca.prostata, "var", axes = 1)
-
-# Contribution to the second dimension
-fviz_contrib(res.mca.mama, "var", axes = 2)
-
-fviz_mca_var(res.mca.mama, col.var = "contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal())
-
-
-#'-----------------------------------------------End Study 9 - Mama ---------------------------------------------------------------------#
 
