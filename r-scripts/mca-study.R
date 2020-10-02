@@ -14,7 +14,7 @@ library("factoextra")
 library('ggplot2')
 library(readr)
 library(plotly)
-
+library(ggthemes)
 source("Scripts/mca-study.R")
 
 # ----------------------------- Auxiliar Functions ------------------------------- #
@@ -24,13 +24,17 @@ boxplot_by_gender <- function(cancer.data, cancer) {
   df2 <- filter(cancer.data, gender == "Female")
   
   y_title <- list(
-    title = "Group of age"
+    title = "Age"
+  )
+  x_title <- list(
+    title = "Gender"
   )
   
   p <- plot_ly(df1, x = df1[["gender"]], y = df1[["age"]], type  = "box", name = 'Male')%>%
     add_trace(df2, x = df2[["gender"]], y = df2[["age"]], name = 'Female') %>%
     layout(yaxis = y_title) %>%
-    layout(title = paste("Cancer by gender -", cancer))
+    layout(xaxis = x_title)
+    #layout(title = paste("Cancer by gender -", cancer))
   p
 }
 
@@ -39,34 +43,39 @@ boxplot_by_population <- function(cancer.data, cancer) {
   df2 <- filter(cancer.data, population == "Rural")
   
   y_title <- list(
-    title = "Group of age"
+    title = "Age"
+  )
+  x_title <- list(
+    title = "Population"
   )
   
   p <- plot_ly(df1, x = df1[["population"]], y = df1[["age"]], type  = "box", name = 'Urban')%>%
     add_trace(df2, x = df2[["population"]], y = df2[["age"]], name = 'Rural') %>%
-    layout(yaxis = y_title) %>%
-    layout(title = paste("Cancer by population - ", cancer))
+    layout(yaxis = y_title, xaxis = x_title, grid = 'rgba(0,0,0,0)')
+    #layout(title = paste("Cancer by population - ", cancer))
   p
+  p
+  
 }
 
 find_outliers <- function () {
-  cancer.data.colonrectum = read_csv("Desktop/MCA-Cancer/data/private/analisi-colonrecte.csv")
+  cancer.data.colonrectum = read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisi-colonrecte.csv")
   boxplot_by_gender(cancer.data.colonrectum, "Colon and Rectum")
   boxplot_by_population(cancer.data.colonrectum, "Colon and Rectum")
   
-  cancer.data.lung = read_csv("Desktop/MCA-Cancer/data/private/analisi-pulmo.csv")
+  cancer.data.lung = read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisi-pulmo.csv")
   boxplot_by_gender(cancer.data.lung, "Lung")
   boxplot_by_population(cancer.data.lung, "Lung")
   
-  cancer.data.urinarybladder = read_csv("Desktop/MCA-Cancer/data/private/analisi-bufeta.csv")
+  cancer.data.urinarybladder = read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisi-bufeta.csv")
   boxplot_by_gender(cancer.data.urinarybladder, "Urinary Bladder")
   boxplot_by_population(cancer.data.urinarybladder, "Urinary Bladder")
   
-  cancer.data.prostate = read_csv("Desktop/MCA-Cancer/data/private/analisi-prostata.csv")
+  cancer.data.prostate = read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisi-prostata.csv")
   boxplot_by_gender(cancer.data.prostate, "Prostate")
   boxplot_by_population(cancer.data.prostate, "Prostate")
   
-  cancer.data.breast = read_csv("Desktop/MCA-Cancer/data/private/analisi-mama.csv")
+  cancer.data.breast = read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisi-mama.csv")
   boxplot_by_gender(cancer.data.breast, "Breast")
   boxplot_by_population(cancer.data.breast, "Breast")
 }
@@ -82,7 +91,7 @@ find_outliers()
 #' * AGE_GROUP is a categorical variable with ithe a set of age segmentation groups.
 #' * GENDER is a categorical variable with gender information Male or Female.
 
-cancer.data=read_csv("/Users/Didac/Desktop/MCA-Cancer/data/private/analisisENG.csv")
+cancer.data=read_csv("/Users/Didac/OneDrive - Generalitat de Catalunya/CANCER/MCA-Cancer/data/private/analisisENG.csv")
 summary(cancer.data)
 table(cancer.data$gender)
 table(cancer.data$edat)
@@ -245,10 +254,10 @@ cancer.data.analisi = cancer.data[, 3:5]
 res.mca3 <- MCA(cancer.data.analisi, graph = FALSE)
 
 fviz_screeplot(res.mca3, addlabels = TRUE, labelsize = 30) +
-  labs(title = " ")+
+  labs(title = "")+
   theme(text = element_text(size = 20),
         axis.title = element_text(size = 20),
-        axis.text = element_text(size = 20))
+        axis.text = element_text(size = 20)) + theme_classic()
 
 fviz_mca_var(res.mca3, choice = "mca.cor", 
              repel = TRUE, 
@@ -305,13 +314,14 @@ fviz_contrib(res.mca3, choice = "var", axes = 1:2, top = 15)
 
 fviz_mca_var(res.mca3, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
-             repel = TRUE, ggtheme = theme_minimal(), labelsize = 7) +
+             repel = TRUE, ggtheme = theme_minimal(), labelsize = 6) +
+  theme_classic() +
   labs(title = " ", x= paste("Dimension 1 (", round(res.mca3$eig[7], 1),"%)", " "), 
        y = paste("Dimension 2 (", round(res.mca3$eig[8], 1),"%)", " "))+
-  theme(text = element_text(size = 20),
-        axis.title = element_text(size = 20),
-        axis.text = element_text(size = 20), 
-        legend.position = c(0.95, 0.85))
+  theme(text = element_text(size = 16),
+        axis.title = element_text(size = 16),
+        axis.text = element_text(size = 16), 
+        legend.position = c(0.92, 0.85))
 
 
 # Change the transparency by contrib values
