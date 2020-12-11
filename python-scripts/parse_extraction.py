@@ -9,10 +9,10 @@ It categorizes the age, the population, gender and type of cancer.
 def read_file_and_parse_file():
     cancerSelection = ['C18', 'C19', 'C20', 'C21', 'C34', 'C50', 'C61', 'C67']
     #cancerSelection = ['C50']
-    with open('extraction_sql_data.csv') as csv_file:
+    with open('../Data/extraction_sql_data.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
         line_count = 0
-        f = open('mock.csv', 'a')  # Create result file
+        f = open('../Data/mock.csv', 'a')  # Create result file
         f.write('"id","age_group","gender","population","cancer"\n')
         id_line = 1
         for row in csv_reader:

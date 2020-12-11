@@ -1,4 +1,4 @@
-# Ph.D Repository
+# The Use of Multiple Correspondence Analysis to Explore Associations between Categories of Qualitative Variables and Cancer Incidence
 
 ## About
 
@@ -8,16 +8,34 @@
   * Francesc Solsona Tehàs <francesc.solsona@udl.cat>
   * Pere Godoy Garcia <pere.godoy@gencat.cat>
 
+## Background
+
+Previous works have shown that risk factors for some kinds of cancer depend on people’s lifestyle (e.g. rural or urban residence). This article looks into this seeking relationships between cancer, age group,gender  and  population  in  the  region  of  Lleida  (Catalonia,Spain) using Multiple Correspondence Analysis (MCA).
+
 ## This repository
 
-This repository contains all the code, scripts and services builed in the context of my Ph.D Studies. Inside this repository you will find:
+This repository contains all the code, scripts and services built in the context of my Ph.D Studies related with cancer incidence in the region of Lleida. Inside this repository you will find:
 
 * _data_: This folder contains mock data to use and understand the tools developed. This is not the data used in my research, I can not publish raw data for logical reasons.
 * _docker_: This folder contains the required container to deploy the scripts. Alternatively, you can install R, python or jupyter or shinny in your personal laptop or server and run them in a more traditional way.
 * _results_: This folder is need by the containers to store inside the results.
 * _r-scripts_: This folder contains the R scripts with the main functions to calculate the techniques used.
-* _jupyter-notebools_: This folder is need by t
-* _python-scripts_: This folder is need by 
+* _python-scripts_: This folder contains the scripts in python to clean and transform data.
+
+## Running python scripts
+
+First of all, you need to build the custom image to deploy the container in docker environment:
+
+```sh
+chmod +x create-python-image.sh
+./create-python-image.sh
+```
+
+Execute the container that will act as a docker-server, for example if we want to clean data:
+
+```sh
+docker run --rm  python-computing-service python parse_extraction.py
+```
 
 ## Using the R server
 
@@ -25,7 +43,7 @@ First of all, you need to build the custom image to deploy the container in dock
 
 ```sh
 chmod +x create-r-image.sh
-./create-r-image
+./create-r-image.sh
 ```
 
 Execute the container that will act as a docker-server:
@@ -44,14 +62,15 @@ sudo docker run -d --rm -p 28787:8787 -e PASSWORD=123456! -e SCRIPTS_DIR "path t
 
 * Use the navigator to visit </yourhostip:28787>, if you run in your laptop 127.0.0.1; with **User**: _rstudio_
   
-
 * At the end, you can stop the container and remove it, using:
 
 ```sh
 sudo docker stop r-computing-service
 sudo docker rm r-computing-service
 ```
+
 ## Analysis technique
+
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
 * MFA (Multiple Factor Analysis): Used when the dataset has groups of categorical or numerical numbers
 * FAMD (Factor Analysis Mixed Data): Used when the dataset has both categorical and numerical numbers
