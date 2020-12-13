@@ -7,6 +7,10 @@
   * Jordi Mateo Fornés <jordi.mateo@udl.cat>, @github/JordiMateoUdL
   * Francesc Solsona Tehàs <francesc.solsona@udl.cat>
   * Pere Godoy Garcia <pere.godoy@gencat.cat>
+* **Collaborators**:
+  * Ramon Piñol <rpinol@catsalut.cat>,
+  * Miquel Mesas <mmesas@gss.cat>
+  * Tere Pedrol <mtpedrol.lleida.ics@gencat.cat>
 
 ## Background
 
