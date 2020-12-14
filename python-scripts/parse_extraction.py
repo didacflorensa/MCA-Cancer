@@ -35,8 +35,7 @@ def processLine(f, row, id_line):
     ageGroup = returnAgeGroup(int(row[0]))
     cancer = returnTypeCancer(str(row[3]))
 
-    if population == "Urban":
-        f.write('"' + str(id_line) + '","'+ str(ageGroup) + '","' + str(sex) + '","'+ str(cancer) + '","' + str(population) + '"\n')
+    f.write('"' + str(id_line) + '","'+ str(ageGroup) + '","' + str(sex) + '","'+ str(cancer) + '","' + str(population) + '"\n')
 
 
 
