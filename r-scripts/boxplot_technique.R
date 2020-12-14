@@ -51,23 +51,38 @@ boxplot_by_population <- function(cancer.data, cancer) {
 }
 
 find_outliers <- function () {
-  cancer.data.colonrectum = read_csv("MCA-Cancer/data/private/analisi-colonrecte.csv")
+  cancer.data.colonrectum = read_csv("../../MCA-Cancer/data/mock_outliers.csv")
+  cancer.data.colonrectum = cancer.data.colonrectum[,2:5]
+  colon_filter <- c("Colon and rectum")
+  cancer.data.colonrectum %>% filter(cancer %in% colon_filter) -> cancer.data.colonrectum
   boxplot_by_gender(cancer.data.colonrectum, "Colon and Rectum")
   boxplot_by_population(cancer.data.colonrectum, "Colon and Rectum")
   
-  cancer.data.lung = read_csv("MCA-Cancer/data/private/analisi-pulmo.csv")
+  cancer.data.lung = read_csv("../../MCA-Cancer/data/mock_outliers.csv")
+  cancer.data.lung = cancer.data.lung[,2:5]
+  lung_filter <- c("Lung")
+  cancer.data.lung %>% filter(cancer %in% lung_filter) -> cancer.data.lung
   boxplot_by_gender(cancer.data.lung, "Lung")
   boxplot_by_population(cancer.data.lung, "Lung")
   
-  cancer.data.urinarybladder = read_csv("MCA-Cancer/data/private/analisi-bufeta.csv")
+  cancer.data.urinarybladder = read_csv("../../MCA-Cancer/data/mock_outliers.csv")
+  cancer.data.urinarybladder = cancer.data.urinarybladder[,2:5]
+  bladder_filter <- c("Urinary Bladder")
+  cancer.data.urinarybladder %>% filter(cancer %in% bladder_filter) -> cancer.data.urinarybladder
   boxplot_by_gender(cancer.data.urinarybladder, "Urinary Bladder")
   boxplot_by_population(cancer.data.urinarybladder, "Urinary Bladder")
   
-  cancer.data.prostate = read_csv("MCA-Cancer/data/private/analisi-prostata.csv")
+  cancer.data.prostate = read_csv("../../MCA-Cancer/data/mock_outliers.csv")
+  cancer.data.prostate = cancer.data.prostate[,2:5]
+  prostate_filter <- c("Prostate")
+  cancer.data.prostate %>% filter(cancer %in% prostate_filter) -> cancer.data.prostate
   boxplot_by_gender(cancer.data.prostate, "Prostate")
   boxplot_by_population(cancer.data.prostate, "Prostate")
   
-  cancer.data.breast = read_csv("MCA-Cancer/data/private/analisi-mama.csv")
+  cancer.data.breast = read_csv("../../MCA-Cancer/data/mock_outliers.csv")
+  cancer.data.breast = cancer.data.breast[,2:5]
+  breast_filter <- c("Breast")
+  cancer.data.breast %>% filter(cancer %in% breast_filter) -> cancer.data.breast
   boxplot_by_gender(cancer.data.breast, "Breast")
   boxplot_by_population(cancer.data.breast, "Breast")
 }

@@ -13,7 +13,9 @@ def read_file_and_parse_file():
         csv_reader = csv.reader(csv_file, delimiter=';')
         line_count = 0
         f = open('../Data/mock.csv', 'a')  # Create result file
+        f_outliers = open('../Data/mock_outliers.csv', 'a') #File to apply box plot technique cancer (age as numerical variable)
         f.write('"id","age_group","gender","population","cancer"\n')
+        f_outliers.write('"id","age","gender","population","cancer"\n')
         id_line = 1
         for row in csv_reader:
             if line_count == 0: #Read the column names
@@ -21,22 +23,24 @@ def read_file_and_parse_file():
                 line_count += 1
             else:  # Process line
                 if str(row[3]) in cancerSelection:
-                    processLine(f, row, id_line)
+                    processLine(f, row, id_line, f_outliers)
                     id_line += 1
 
                 line_count += 1
 
         f.close()
+        f.close()
 
 
-def processLine(f, row, id_line):
+def processLine(f, row, id_line, f_outliers):
     population = returnCorrectPopulation(int(row[2]))
     sex = returnSex(int(row[1]))
     ageGroup = returnAgeGroup(int(row[0]))
     cancer = returnTypeCancer(str(row[3]))
+    age_numerical = int(row[0])
 
     f.write('"' + str(id_line) + '","'+ str(ageGroup) + '","' + str(sex) + '","'+ str(cancer) + '","' + str(population) + '"\n')
-
+    f_outliers.write('"' + str(id_line) + '","'+ str(age_numerical) + '","' + str(sex) + '","'+ str(cancer) + '","' + str(population) + '"\n')
 
 
 def returnCorrectPopulation(population):
