@@ -23,7 +23,9 @@ library(plotly)
 #' * GENDER is a categorical variable with gender information Male or Female.
 
 #Read csv file with information about colon and rectum file without outliers
-cancer.data=read_csv("../../../MCA-Cancer/data/private/analisi-colonrecte2-outliers.csv")
+cancer.data=read_csv("../../MCA-Cancer/data/mock.csv")
+filter <- c("Colon and rectum")
+cancer.data %>% filter(cancer %in% filter) -> cancer.data
 
 summary(cancer.data)
 head(cancer.data)
