@@ -75,7 +75,7 @@ sudo docker rm r-computing-service
 
 ## Installation and use of R-scripts
 
-* Install the libraries from CRAN using the RStudio console:
+Install the libraries from CRAN using the RStudio console:
 ```install.packages("FactoMineR")
 install.packages("factoextra")
 install.packages("ggplot2")
@@ -83,9 +83,13 @@ install.packages("readr")
 install.packages("plotly")
 ```
 
-* Use of r-scripts:
+Use of r-scripts:
 * [mca-study.R](r-scripts/mca-study.R): This file search relations between all cancers and qualitative variables
 * [mca-colonrectum.R](r-scripts/mca-colonrectum.R): This file search relations between Colorectal cancer and qualitative variables
+* [mca-lung.R](r-scripts/mca-lung.R): This file search relations between Lung cancer and qualitative variables
+* [mca-prostate.R](r-scripts/mca-prostate.R): This file search relations between Prostate cancer and qualitative variables
+* [mca-urinarybladder.R](r-scripts/mca-urinarybladder.R): This file search relations between Urinary Bladder cancer and qualitative variables
+* [mca-breast.R](r-scripts/mca-breast.R): This file search relations between Breast cancer and qualitative variables
 
 ## Analysis technique
 
