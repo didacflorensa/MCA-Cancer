@@ -85,12 +85,12 @@ install.packages("plotly")
 ```
 
 Use of r-scripts:
-* [mca-study.R](r-scripts/mca-study.R): This file search relations between all cancers and qualitative variables using MCA
-* [mca-colonrectum.R](r-scripts/mca-colonrectum.R): This file search relations between Colorectal cancer and qualitative variables using MCA
-* [mca-lung.R](r-scripts/mca-lung.R): This file search relations between Lung cancer and qualitative variables using MCA
-* [mca-prostate.R](r-scripts/mca-prostate.R): This file search relations between Prostate cancer and qualitative variables using MCA
-* [mca-urinarybladder.R](r-scripts/mca-urinarybladder.R): This file search relations between Urinary Bladder cancer and qualitative variables using MCA
-* [mca-breast.R](r-scripts/mca-breast.R): This file search relations between Breast cancer and qualitative variables using MCA
+* [mca-study.R](r-scripts/mca-study.R): This file search relations between all cancers and qualitative variables using MCA.
+* [mca-colonrectum.R](r-scripts/mca-colonrectum.R): This file search relations between Colorectal cancer and qualitative variables using MCA.
+* [mca-lung.R](r-scripts/mca-lung.R): This file search relations between Lung cancer and qualitative variables using MCA.
+* [mca-prostate.R](r-scripts/mca-prostate.R): This file search relations between Prostate cancer and qualitative variables using MCA.
+* [mca-urinarybladder.R](r-scripts/mca-urinarybladder.R): This file search relations between Urinary Bladder cancer and qualitative variables using MCA.
+* [mca-breast.R](r-scripts/mca-breast.R): This file search relations between Breast cancer and qualitative variables using MCA.
 * [boxplot_technique.R](r-scripts/boxplot_technique.R): This file is used to detect outliers in the data set using the Box Plot technique.
 
 boxplot_technique.R
