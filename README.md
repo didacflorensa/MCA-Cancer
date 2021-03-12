@@ -83,6 +83,10 @@ install.packages("readr")
 install.packages("plotly")
 ```
 
+* Use of r-scripts:
+* [mca-study.R](r-scripts/mca-study.R): This file search relations between all cancers and qualitative variables
+* [mca-colonrectum.R](r-scripts/mca-colonrectum.R): This file search relations between Colorectal cancer and qualitative variables
+
 ## Analysis technique
 
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
