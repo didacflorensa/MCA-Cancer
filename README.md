@@ -93,7 +93,6 @@ Use of r-scripts:
 * [mca-breast.R](r-scripts/mca-breast.R): This file search relations between Breast cancer and qualitative variables using MCA.
 * [boxplot_technique.R](r-scripts/boxplot_technique.R): This file is used to detect outliers in the data set using the Box Plot technique.
 
-boxplot_technique.R
 ## Analysis technique
 
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
