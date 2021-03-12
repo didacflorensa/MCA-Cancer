@@ -1,8 +1,8 @@
 # Base image https://hub.docker.com/u/rocker/
 FROM rocker/rstudio
 
-#COPY ./r-scripts/requeriments.R /tmp/requeriments.R
-#RUN Rscript  /tmp/requeriments.R
+COPY ./r-scripts/requeriments.R /tmp/requeriments.R
+RUN Rscript  /tmp/requeriments.R
 
 # create an R user
 ENV USER rstudio
