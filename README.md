@@ -73,16 +73,7 @@ sudo docker stop r-computing-service
 sudo docker rm r-computing-service
 ```
 
-## Installation and use of R-scripts
-
-Install the libraries from CRAN using the RStudio console:
-```sh
-install.packages("FactoMineR")
-install.packages("factoextra")
-install.packages("ggplot2")
-install.packages("readr")
-install.packages("plotly")
-```
+## Use of R-scripts
 
 Use of r-scripts:
 * [mca-study.R](r-scripts/mca-study.R): This file search relations between all cancers and qualitative variables using MCA.
