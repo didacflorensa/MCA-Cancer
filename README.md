@@ -75,7 +75,7 @@ sudo docker rm r-computing-service
 
 ## Installation and use of R-scripts
 
-* Install the libraries from CRAN:
+* Install the libraries from CRAN using the RStudio console:
 ```install.packages("FactoMineR")
 install.packages("factoextra")
 install.packages("ggplot2")
