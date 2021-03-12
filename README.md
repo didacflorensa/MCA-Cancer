@@ -73,6 +73,16 @@ sudo docker stop r-computing-service
 sudo docker rm r-computing-service
 ```
 
+## Installation and use of R-scripts
+
+* Install the libraries from CRAN:
+```install.packages("FactoMineR")
+install.packages("factoextra")
+install.packages("ggplot2")
+install.packages("readr")
+install.packages("plotly")
+```
+
 ## Analysis technique
 
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
