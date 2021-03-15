@@ -65,6 +65,12 @@ sudo docker run -d --rm -p 28787:8787 -e PASSWORD=123456! -e SCRIPTS_DIR "path t
 ```
 
 * Use the navigator to visit </yourhostip:28787>, if you run in your laptop 127.0.0.1; with **User**: _rstudio_
+
+* To run the script _mca-study.R_, you can open the navigator terminal and run the next command:
+
+```sh
+Rscript mca-study.R
+```
   
 * At the end, you can stop the container and remove it, using:
 
