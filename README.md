@@ -84,6 +84,32 @@ Use of r-scripts:
 * [mca-breast.R](r-scripts/mca-breast.R): This file search relations between Breast cancer and qualitative variables using MCA.
 * [boxplot_technique.R](r-scripts/boxplot_technique.R): This file is used to detect outliers in the data set using the Box Plot technique.
 
+Example of code:
+* Read the data set
+```sh
+cancer.data=read_csv("../../MCA-Cancer/data/mock.csv")
+```
+
+* Save the output of MCA in a variable and print it to see the results. The results are available in some objects as eigenvalue, contribution and coordinates of the categories, cos2 for the categories...
+```sh
+res.mca <- MCA(cancer.data, graph = FALSE)
+res.mca
+```
+
+* Bar plot that represent the contribution of every category in the dimension 1 and 2.
+```sh
+fviz_contrib(res.mca, choice = "var", axes = 1, top = 20, palette = "jco")
+fviz_contrib(res.mca, choice = "var", axes = 2, top = 20, palette = "jco")
+```
+
+* Represent the coordinates of each variable categories in each dimension and its contributions.
+```sh
+fviz_mca_var(res.mca, 
+              col.var = "contrib", 
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+              repel = TRUE, ggtheme = theme_minimal())
+```
+
 ## Analysis technique
 
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
