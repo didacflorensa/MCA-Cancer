@@ -91,7 +91,7 @@ Use of r-scripts:
 * [boxplot_technique.R](r-scripts/boxplot_technique.R): This file is used to detect outliers in the data set using the Box Plot technique.
 
 Example of code:
-* Read the data set
+* Load the data set
 ```sh
 cancer.data=read_csv("../../MCA-Cancer/data/mock.csv")
 ```
@@ -100,6 +100,11 @@ cancer.data=read_csv("../../MCA-Cancer/data/mock.csv")
 ```sh
 res.mca <- MCA(cancer.data, graph = FALSE)
 res.mca
+```
+
+* For example, to obtain the eigenvalue, you can use:
+```sh
+res.mca3$eig
 ```
 
 * Bar plot that represent the contribution of every category in the dimension 1 and 2.
