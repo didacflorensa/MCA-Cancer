@@ -102,7 +102,7 @@ fviz_contrib(res.mca, choice = "var", axes = 1, top = 20, palette = "jco")
 fviz_contrib(res.mca, choice = "var", axes = 2, top = 20, palette = "jco")
 ```
 
-* Represent the coordinates of each variable categories in each dimension and its contributions.
+* Represent the coordinates of each variable categories in each dimension and its contribution.
 ```sh
 fviz_mca_var(res.mca, 
               col.var = "contrib", 
