@@ -25,6 +25,9 @@ This repository contains all the code, scripts and services built in the context
 * _results_: This folder is need by the containers to store inside the results. To add the results in this folder, create it manually. This folder will not upload in github because it was added in .gitignore.
 * _r-scripts_: This folder contains the R scripts with the main functions to calculate the techniques used.
 * _python-scripts_: This folder contains the scripts in python to clean and transform data.
+* _r-scripts/boxplot-images_: This folder contains the images of boxplot graphs. 
+* _r-scripts/distrbutions-plots-by-cancer_: This folder contains the distribution plots by each cancer.
+
 
 ## Running python scripts
 
