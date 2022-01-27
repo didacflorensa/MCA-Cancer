@@ -129,3 +129,11 @@ fviz_mca_var(res.mca,
 * MCA (Multiple Correspondence Analysis): Used when the dataset contains more than 2 categorical variables
 * MFA (Multiple Factor Analysis): Used when the dataset has groups of categorical or numerical numbers
 * FAMD (Factor Analysis Mixed Data): Used when the dataset has both categorical and numerical numbers
+
+
+## Software versions
+* Python 3.7.4
+* R 3.6.2
+* FactoMineR 2.4 (R version supported > 3.5)
+* Scikit-Learn 0.24.2
+
