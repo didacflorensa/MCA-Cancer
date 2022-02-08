@@ -29,7 +29,9 @@ This information was extracted from different databases. The sources used were n
 The final dataset was built by python script that selected the patients with colorectal cancer diagnosed between 2012 and 2015. Next, we obtained the smoking exposition and the BMI when each patient was diagnosed. And finally, the level of income of each patient.
 
 
+## Analysis 
 
+The R script to analyse this dataset is in [a link](https://github.com/didacflorensa/MCA-Cancer/blob/master/r-scripts/ColonRectum/mca_r.R)
 
 
  
