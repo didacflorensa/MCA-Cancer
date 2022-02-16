@@ -27,7 +27,7 @@ This repository contains all the code, scripts and services built in the context
 * _python-scripts_: This folder contains the scripts in python to clean and transform data.
 * _r-scripts/boxplot-images_: This folder contains the images of boxplot graphs. 
 * _r-scripts/distrbutions-plots-by-cancer_: This folder contains the distribution plots by each cancer.
-* _kmeans_: This folder contains the script to execute the kmeans algorithm. The dataset is available in _data/colon-study_.
+* _ython-scripts/kmeans_: This folder contains the script to execute the kmeans algorithm. The dataset is available in _data/colon-study_.
 
 
 ## Running python scripts
