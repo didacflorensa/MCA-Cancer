@@ -34,4 +34,7 @@ The final dataset was built by python script that selected the patients with col
 The R script to analyse this dataset is in [a link](https://github.com/didacflorensa/MCA-Cancer/blob/master/r-scripts/ColonRectum/mca_r.R)
 
 
+## Data Generator
+
+The mock_generator.py reproduced the same structure used for the analysis by random data.
  
